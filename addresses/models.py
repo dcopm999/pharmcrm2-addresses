@@ -166,6 +166,47 @@ class District(models.Model):
         super().save(*args, **kwargs)
 
 
+class Street(models.Model):
+    district = models.ForeignKey(
+        District,
+        on_delete=models.CASCADE,
+        verbose_name=_("Desctrict"),
+    )
+    name = models.CharField(max_length=100, unique=True, verbose_name=_("Street name"))
+    name_eng = models.CharField(
+        max_length=100,
+        verbose_name=_("Street name english"),
+        blank=True,
+    )
+    slug = models.SlugField(
+        max_length=140,
+        db_index=True,
+        blank=True,
+        editable=False,
+        verbose_name=_("slug"),
+    )
+    created = models.DateTimeField(
+        auto_now_add=True, editable=False, verbose_name=_("Created")
+    )
+    updated = models.DateTimeField(
+        auto_now=True, editable=False, verbose_name=_("Updated")
+    )
+
+    class Meta:
+        verbose_name = _("Street")
+        verbose_name_plural = _("Streets")
+
+    def get_absolute_url(self):
+        return reverse("addresses:street-detail", kwargs={"slug": self.slug})
+
+    def __str__(self):
+        return f"{self.district}, {self.name}"
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+
 class OKATO(models.Model):
     region = models.PositiveIntegerField(
         validators=[
