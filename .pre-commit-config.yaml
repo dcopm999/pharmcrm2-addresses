@@ -32,7 +32,11 @@ repos:
     hooks:
       - id: mypy
         exclude: ^docs/conf.py
-
+        additional_dependencies: [
+            django-stubs,
+            python-slugify,
+	    types-python-slugify,
+        ]
 # sets up .pre-commit-ci.yaml to ensure pre-commit dependencies stay up to date
 ci:
     autoupdate_schedule: weekly
