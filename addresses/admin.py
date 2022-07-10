@@ -28,3 +28,10 @@ class DistrictAdmin(admin.ModelAdmin):
     list_display = ["name", "area"]
     search_fields = ["name"]
     list_filter = ["area"]
+
+
+@admin.register(models.Street)
+class StreetAdmin(admin.ModelAdmin):
+    list_display = ["name", "district"]
+    search_fields = ["name"]
+    list_filter = ["district"]
